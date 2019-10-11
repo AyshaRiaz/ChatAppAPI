@@ -44,6 +44,7 @@ namespace ChatAppAPI.Handlers
                 room = context.ChatRoom.Single(x => x.ChatRoomId == roomId);
                 room = (from chatroom in context.ChatRoom
                         .Include(a => a.User1)
+                        .Include(a =>a.User2)
                         where chatroom.ChatRoomId == roomId
                         select chatroom).First();
             if (!(room.User1.UserId == message.From))

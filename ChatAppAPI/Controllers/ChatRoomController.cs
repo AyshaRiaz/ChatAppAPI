@@ -50,6 +50,24 @@ namespace ChatAppAPI.Controllers
             //return Json(chatrooms);
             return Json(chats);
         }
-        
+        //##################################################################################################################################################
+        /// <summary>
+        /// To get friend data
+        /// </summary>
+        /// <param name="roomid"></param>
+        /// <returns></returns>
+        public IHttpActionResult Post(int roomid,int myid)
+        {
+            User u = new User();
+            u = chatRoomHandler.friendData(roomid, myid);
+            UserModel user = new UserModel();
+            user.Email = u.Email;
+            user.FullName = u.FullName;
+            user.Gender = u.Gender;
+            user.Password = u.Password;
+            user.SecurityAnswer = u.SecurityAnswer;
+            user.SecurityQuestion = u.SecurityQuestion;
+            return Json(user);
+        }
     }
 }

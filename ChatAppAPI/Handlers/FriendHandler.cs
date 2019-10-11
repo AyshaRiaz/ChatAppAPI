@@ -23,23 +23,31 @@ namespace ChatAppAPI.Handlers
             List<User> a = new List<User>();
             List<User> b = new List<User>();
             User user = new User();
-            using (var context = new ChatAPIContext())
+            try
             {
-                 user = context.Users.Single(u => u.Email == email);
+                using (var context = new ChatAPIContext())
+                {
+                    user = context.Users.Single(u => u.Email == email);
 
-                a =(from f in context.Friend
-                        .Include(s => s.User2)
-                        where user.UserId == f.User1.UserId && f.IsFriend == true
-                        select f.User2
-                        ).ToList();
-                b = (from f in context.Friend
-                        .Include(s => s.User1)
-                     where user.UserId == f.User2.UserId && f.IsFriend == true
-                     select f.User1
-                       ).ToList();
-                a.AddRange(b);
-                return a;
+                    a = (from f in context.Friend
+                             .Include(s => s.User2)
+                         where user.UserId == f.User1.UserId && f.IsFriend == true
+                         select f.User2
+                            ).ToList();
+                    b = (from f in context.Friend
+                            .Include(s => s.User1)
+                         where user.UserId == f.User2.UserId && f.IsFriend == true
+                         select f.User1
+                           ).ToList();
+                    a.AddRange(b);
+                    return a;
+                }
             }
+            catch
+            {
+                return null;
+            }
+          
            
         }
 //############################################################################################################################

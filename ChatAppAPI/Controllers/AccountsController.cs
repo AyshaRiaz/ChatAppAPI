@@ -65,6 +65,8 @@ namespace ChatAppAPI.Controllers
             
             return Ok();
         }
+
+        //######### Update Name ###################
         public IHttpActionResult Post(int id, string newName)
         {
             using (var context = new ChatAPIContext())

@@ -79,5 +79,22 @@ namespace ChatAppAPI.Handlers
                 return DateTime.Now;
             }
         }
+//############################################################################################################################3
+        public User friendData(int chatroomid,int myid)
+        {
+            using (var context = new ChatAPIContext())
+            {
+                var chatroom = (from c in context.ChatRoom
+                         .Include(x => x.User1)
+                         .Include(x => x.User2)
+                                where c.ChatRoomId == chatroomid
+                                select c).Single() ;
+                if (chatroom.User1.UserId == myid)
+                {
+                    return chatroom.User2;
+                }
+                return chatroom.User1;
+            }
+        }
     }
 }
